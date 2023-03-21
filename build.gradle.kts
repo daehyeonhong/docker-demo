@@ -6,6 +6,7 @@ plugins {
     id("org.asciidoctor.jvm.convert") version "3.3.2"
     kotlin("jvm") version "1.7.22"
     kotlin("plugin.spring") version "1.7.22"
+    kotlin("plugin.jpa") version "1.7.22"
 }
 
 group = "com.example"
@@ -16,10 +17,10 @@ repositories {
     mavenCentral()
 }
 
-val snippetsDir by extra {file("build/generated-snippets")}
+val snippetsDir by extra { file("build/generated-snippets") }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.0.4")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -28,6 +29,7 @@ dependencies {
     runtimeOnly("com.mysql:mysql-connector-j")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+    testImplementation("org.mockito:mockito-core")
 }
 
 tasks.withType<KotlinCompile> {
