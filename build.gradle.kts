@@ -17,7 +17,7 @@ repositories {
     mavenCentral()
 }
 
-val snippetsDir by extra { file("build/generated-snippets") }
+val asciidoctorExt: Configuration by configurations.creating
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -28,8 +28,9 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.mysql:mysql-connector-j")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+    testImplementation("org.springframework.restdocs:spring-restdocs-restassured")
     testImplementation("io.rest-assured:rest-assured:5.3.0")
+    asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
 }
 
 tasks.withType<KotlinCompile> {
@@ -43,11 +44,36 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+val snippetsDir by extra { file("build/generated-snippets") }
+
+
+
 tasks.test {
     outputs.dir(snippetsDir)
 }
 
 tasks.asciidoctor {
     inputs.dir(snippetsDir)
+    configurations(asciidoctorExt.name)
     dependsOn(tasks.test)
+    doLast {
+        copy {
+            from("build/docs/asciidoc")
+            into("src/main/resources/static/docs")
+        }
+    }
+}
+tasks.register("copyHTML", Copy::class) {
+    dependsOn(tasks.asciidoctor)
+    from(file("build/asciidoc/html5"))
+    into(file("src/main/resources/static/docs"))
+}
+
+tasks.build {
+    dependsOn(tasks.getByName("copyHTML"))
+}
+
+tasks.bootJar {
+    dependsOn(tasks.asciidoctor)
+    dependsOn(tasks.getByName("copyHTML"))
 }

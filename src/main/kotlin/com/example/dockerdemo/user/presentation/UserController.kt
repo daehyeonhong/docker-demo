@@ -8,17 +8,15 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping(value = ["/users"])
 class UserController(
     private val userService: UserService
 ) {
-    @PostMapping
+    @PostMapping("/users")
     fun registerUser(@RequestBody userRequestVo: UserRequestVo): ResponseEntity<UserResponseVo> {
         val user: UserEntity = this.userService.save(userRequestVo)
-        return ResponseEntity( UserResponseVo( user.name, user.age), HttpStatus.CREATED)
+        return ResponseEntity(UserResponseVo(user.name, user.age), HttpStatus.CREATED)
     }
 }
