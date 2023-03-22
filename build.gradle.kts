@@ -3,10 +3,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "3.0.4"
     id("io.spring.dependency-management") version "1.1.0"
-    id("org.asciidoctor.jvm.convert") version "3.3.2"
-    kotlin("jvm") version "1.7.22"
-    kotlin("plugin.spring") version "1.7.22"
-    kotlin("plugin.jpa") version "1.7.22"
+    id("org.asciidoctor.convert") version "1.5.8"
+    kotlin("jvm") version "1.8.0"
+    kotlin("plugin.spring") version "1.8.0"
+    kotlin("plugin.jpa") version "1.8.0"
 }
 
 group = "com.example"
@@ -17,7 +17,7 @@ repositories {
     mavenCentral()
 }
 
-val asciidoctorExt: Configuration by configurations.creating
+val snippetsDir by extra { file("build/generated-snippets") }
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -29,8 +29,7 @@ dependencies {
     runtimeOnly("com.mysql:mysql-connector-j")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-restassured")
-    testImplementation("io.rest-assured:rest-assured:5.3.0")
-    asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
+    testImplementation("io.rest-assured:rest-assured")
 }
 
 tasks.withType<KotlinCompile> {
@@ -44,17 +43,12 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-val snippetsDir by extra { file("build/generated-snippets") }
-
-
-
 tasks.test {
     outputs.dir(snippetsDir)
 }
 
 tasks.asciidoctor {
     inputs.dir(snippetsDir)
-    configurations(asciidoctorExt.name)
     dependsOn(tasks.test)
     doLast {
         copy {

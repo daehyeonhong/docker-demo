@@ -22,20 +22,4 @@ class AcceptanceTest {
     @LocalServerPort
     protected var port = 0
     protected lateinit var spec: RequestSpecification
-
-    @BeforeEach
-    fun setUp(restDocumentation: RestDocumentationContextProvider) {
-        RestAssured.port = port
-        this.spec =  RequestSpecBuilder()
-            .addFilter(documentationConfiguration(restDocumentation)
-                .snippets()
-                .withDefaults(
-                    curlRequest(),
-                    httpRequest(),
-                    httpResponse(),
-                    requestBody(),
-                    responseBody()
-                ))
-            .build()
-    }
 }
