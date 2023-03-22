@@ -29,7 +29,7 @@ dependencies {
     runtimeOnly("com.mysql:mysql-connector-j")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
-    testImplementation("org.mockito:mockito-core")
+    testImplementation("io.rest-assured:rest-assured:5.3.0")
 }
 
 tasks.withType<KotlinCompile> {
