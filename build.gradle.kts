@@ -47,21 +47,28 @@ dependencies {
 
 val snippetsDir by extra { file("build/generated-snippets") }
 
-tasks.test {
-    outputs.dir(snippetsDir)
-}
-
-tasks.asciidoctor {
-    inputs.dir(snippetsDir)
-    dependsOn(tasks.test)
-    doLast {
-        copy {
-            from("build/docs/asciidoc")
-            into("src/main/resources/static/docs")
+tasks {
+    test {
+        outputs.dir(snippetsDir)
+    }
+    asciidoctor {
+        baseDirFollowsSourceFile()
+        inputs.dir(snippetsDir)
+        dependsOn(test)
+        configurations(asciidoctorExt.name)
+        doFirst {
+            delete {
+                file("src/main/resources/static/docs")
+            }
+        }
+        doLast {
+            copy {
+                from("build/docs/asciidoc")
+                into("src/main/resources/static/docs")
+            }
         }
     }
-}
-
-tasks.build {
-    dependsOn(tasks.asciidoctor)
+    build {
+        dependsOn(asciidoctor)
+    }
 }
