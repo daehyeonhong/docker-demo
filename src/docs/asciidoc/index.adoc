@@ -1,3 +1,32 @@
-include::{snippets}/user-sign-up/http-request.adoc[]
-include::{snippets}/user-sign-up/http-response.adoc[]
-include::{snippets}/user-sign-up/curl-request.adoc[]
+= restDocs
+:toc: right
+:toclevels: 2
+:sectlinks:
+:docktype: book
+:source-highlighter: highlightjs
+:icons: font
+:source-language: java
+:highlightjs-theme: github
+:highlightjs-languages: java,xml,html,css,js,http
+:snippets: target/generated-snippets
+
+== 회원가입
+
+include::{snippets}/user-controller-test/find-by-user-with-user-id/http-request.adoc[]
+include::{snippets}/user-controller-test/find-by-user-with-user-id/http-response.adoc[]
+include::{snippets}/user-controller-test/find-by-user-with-user-id/curl-request.adoc[]
+include::{snippets}/user-controller-test/find-by-user-with-user-id/response-fields.adoc[]
+
+== 회원가입
+
+include::{snippets}/user-controller-test/find-by-user-with-user-id/http-request.adoc[]
+include::{snippets}/user-controller-test/find-by-user-with-user-id/http-response.adoc[]
+include::{snippets}/user-controller-test/find-by-user-with-user-id/curl-request.adoc[]
+include::{snippets}/user-controller-test/find-by-user-with-user-id/response-fields.adoc[]
+
+== 회원가입
+
+include::{snippets}/user-controller-test/find-by-user-with-user-id/http-request.adoc[]
+include::{snippets}/user-controller-test/find-by-user-with-user-id/http-response.adoc[]
+include::{snippets}/user-controller-test/find-by-user-with-user-id/curl-request.adoc[]
+include::{snippets}/user-controller-test/find-by-user-with-user-id/response-fields.adoc[]

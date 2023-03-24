@@ -10,13 +10,14 @@ import kotlin.random.Random
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.restdocs.operation.preprocess.Preprocessors
+import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
-import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
+import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document
 
 class UserSteps {
     companion object {
-        fun createUserRequestGenerate(
+        fun userSignupRequestGenerate(
             spec: RequestSpecification,
             userRequest: UserRequestVo
         ): ExtractableResponse<Response> =
@@ -24,12 +25,12 @@ class UserSteps {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(userRequest).filter(
                     document(
-                        "user-sign-up",
+                        "{class-name}/{method-name}",
                         Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                         Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
-                        requestFields(
-                            fieldWithPath("name").description("회원 이름"),
-                            fieldWithPath("age").description("회원 나이")
+                        responseFields(
+                            fieldWithPath("name").type(JsonFieldType.STRING).description("사용자 이름"),
+                            fieldWithPath("age").type(JsonFieldType.NUMBER).description("사용자 나이"),
                         )
                     )
                 )
@@ -39,7 +40,7 @@ class UserSteps {
                 .statusCode(HttpStatus.CREATED.value())
                 .extract()
 
-        fun userReqeustGenerate(): UserRequestVo = UserRequestVo(
+        fun createUserSignupGenerate(): UserRequestVo = UserRequestVo(
             name = UUID.randomUUID().toString().split("-")[0],
             age = Random.nextInt(1, 101)
         )

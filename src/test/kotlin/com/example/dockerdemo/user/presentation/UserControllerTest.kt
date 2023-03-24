@@ -15,8 +15,9 @@ import org.springframework.http.HttpStatus
 class UserControllerTest(@LocalServerPort private val port: Int) : RestDocsTestBase(port) {
     @Test
     fun findByUserWithUserId(): Unit {
-        val userRequest: UserRequestVo = UserSteps.userReqeustGenerate()
-        val response = UserSteps.createUserRequestGenerate(spec, userRequest)
+        val userRequest: UserRequestVo = UserSteps.createUserSignupGenerate()
+        val response = UserSteps.userSignupRequestGenerate(spec, userRequest)
+
         Assertions.assertAll(
             { assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value()) },
             { assertThat(response.jsonPath().getInt("age")).isEqualTo(userRequest.age) },
@@ -26,8 +27,8 @@ class UserControllerTest(@LocalServerPort private val port: Int) : RestDocsTestB
 
     @Test
     fun findByUserWithUserId2(): Unit {
-        val userRequest: UserRequestVo = UserSteps.userReqeustGenerate()
-        val response = UserSteps.createUserRequestGenerate(spec, userRequest)
+        val userRequest: UserRequestVo = UserSteps.createUserSignupGenerate()
+        val response = UserSteps.userSignupRequestGenerate(spec, userRequest)
         assertThat(response.statusCode()).isNotEqualTo(HttpStatus.ACCEPTED.name)
         Assertions.assertAll(
             { assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value()) },
