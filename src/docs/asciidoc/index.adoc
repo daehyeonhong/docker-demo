@@ -1,0 +1,3 @@
+include::{snippets}/user-sign-up/http-request.adoc[]
+include::{snippets}/user-sign-up/http-response.adoc[]
+include::{snippets}/user-sign-up/curl-request.adoc[]
